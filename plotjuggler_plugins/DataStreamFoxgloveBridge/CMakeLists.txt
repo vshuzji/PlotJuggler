@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(DataStreamFoxgloveBridge)
 
-find_package(Qt5 REQUIRED COMPONENTS Widgets WebSockets Xml)
+find_package(Qt6 REQUIRED COMPONENTS Widgets WebSockets Xml)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 
 include_directories(../)
 
-qt5_wrap_ui(UI_SRC
+qt6_wrap_ui(UI_SRC
   foxglove_client.ui
 )
 
@@ -29,9 +29,9 @@ target_include_directories(DataStreamFoxgloveBridge PRIVATE
 )
 
 target_link_libraries(DataStreamFoxgloveBridge PRIVATE
-  Qt5::Widgets
-  Qt5::WebSockets
-  Qt5::Xml
+  Qt6::Widgets
+  Qt6::WebSockets
+  Qt6::Xml
   plotjuggler_base
 )
 

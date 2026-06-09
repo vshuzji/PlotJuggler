@@ -1,23 +1,23 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(QtAV QUIET)
+find_package(Qt6AV QUIET)
 
-if(NOT QtAV_FOUND)
+if(NOT Qt6AV_FOUND)
   message(
-    "QtAV not found. VideoPlayer plugin will not be built. Try installing it with 'sudo apt install libqtav-dev'"
+    "Qt6AV not found. VideoPlayer plugin will not be built. Try installing it with 'sudo apt install libqtav-dev'"
   )
 else()
-  message("QtAV FOUND. Building VideoPlayer plugin")
+  message("Qt6AV FOUND. Building VideoPlayer plugin")
 
   include_directories(../ ${QTAVWIDGETS_INCLUDE_DIRS})
 
-  qt5_wrap_ui(UI_SRC video_dialog.ui)
+  qt6_wrap_ui(UI_SRC video_dialog.ui)
 
   add_library(PublisherVideoViewer SHARED video_viewer.cpp video_dialog.cpp
                                           ${UI_SRC})
 
   target_link_libraries(
-    PublisherVideoViewer PRIVATE Qt5::Widgets ${QTAVWIDGETS_LIBRARIES}
+    PublisherVideoViewer PRIVATE Qt6::Widgets ${QTAVWIDGETS_LIBRARIES}
                                  plotjuggler_base)
 
   target_compile_definitions(PublisherVideoViewer PRIVATE QT_PLUGIN)

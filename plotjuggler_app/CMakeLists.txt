@@ -1,14 +1,14 @@
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-qt5_add_resources(RES_SRC resource.qrc)
+qt6_add_resources(RES_SRC resource.qrc)
 
 if(WIN32)
   # Adds icon to plotjuggler.exe
   set(RES_SRC ${RES_SRC} plotjuggler.rc)
 endif()
 
-qt5_wrap_ui(
+qt6_wrap_ui(
   UI_SRC
   aboutdialog.ui
   mainwindow.ui

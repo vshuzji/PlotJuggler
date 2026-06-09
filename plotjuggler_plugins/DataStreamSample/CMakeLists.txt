@@ -4,7 +4,7 @@ set(SRC datastream_sample.cpp)
 
 add_library(DataStreamSample SHARED ${SRC} ${UI_SRC})
 
-target_link_libraries(DataStreamSample PRIVATE Qt5::Widgets Qt5::Xml
+target_link_libraries(DataStreamSample PRIVATE Qt6::Widgets Qt6::Xml
                                                plotjuggler_base)
 
 target_compile_definitions(DataStreamSample PRIVATE QT_PLUGIN)

@@ -3,18 +3,21 @@ include_directories(../)
 # Include Howard Hinnant's date library for improved timestamp parsing
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/date-3.0.4/include)
 
-qt5_wrap_ui(UI_SRC dataload_csv.ui datetimehelp.ui)
+qt6_wrap_ui(UI_SRC dataload_csv.ui datetimehelp.ui)
 
 # Pure parsing library (no Qt Widgets dependency)
 add_library(csv_parser_lib STATIC csv_parser.cpp timestamp_parsing.cpp)
-target_link_libraries(csv_parser_lib PRIVATE Qt5::Core)
+
+find_package(Qt6 REQUIRED COMPONENTS Core)
+target_link_libraries(csv_parser_lib PRIVATE Qt6::Core)
 target_include_directories(csv_parser_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/3rdparty/date-3.0.4/include)
 
 # Plugin (GUI)
 add_library(DataLoadCSV SHARED dataload_csv.cpp datetimehelp.cpp ${UI_SRC})
-target_link_libraries(DataLoadCSV PRIVATE csv_parser_lib Qt5::Widgets Qt5::Xml
+find_package(Qt6 REQUIRED COMPONENTS Xml)
+target_link_libraries(DataLoadCSV PRIVATE csv_parser_lib Qt6::Widgets Qt6::Xml
                                           plotjuggler_base QCodeEditor)
 
 target_compile_definitions(DataLoadCSV PRIVATE QT_PLUGIN)

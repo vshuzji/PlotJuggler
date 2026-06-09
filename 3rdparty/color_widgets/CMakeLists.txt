@@ -22,4 +22,6 @@ target_include_directories(colorwidgets PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_libraries(colorwidgets Qt5::Core Qt5::Widgets )
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+
+target_link_libraries(colorwidgets Qt6::Core Qt6::Widgets )

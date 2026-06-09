@@ -17,13 +17,13 @@ if(Zcm_FOUND)
 
   include_directories(${Zcm_INCLUDE_DIR})
 
-  qt5_wrap_ui(UI_SRC datastream_zcm.ui)
+  qt6_wrap_ui(UI_SRC datastream_zcm.ui)
 
   set(SRC datastream_zcm.h datastream_zcm.cpp)
 
   add_library(DataStreamZcm SHARED ${SRC} ${UI_SRC})
 
-  target_link_libraries(DataStreamZcm PRIVATE Qt5::Widgets plotjuggler_base
+  target_link_libraries(DataStreamZcm PRIVATE Qt6::Widgets plotjuggler_base
                                               ${Zcm_LIBRARIES})
 
   target_compile_definitions(DataStreamZcm PRIVATE QT_PLUGIN)

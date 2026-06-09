@@ -16,7 +16,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dds-parser/CMakeLists.txt")
     ParserDDS
     PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/dds_parser/include>)
 
-  target_link_libraries(ParserDDS PRIVATE Qt5::Widgets dds_parser
+  target_link_libraries(ParserDDS PRIVATE Qt6::Widgets dds_parser
                                           plotjuggler_base)
 
   target_compile_definitions(ParserDDS PRIVATE QT_PLUGIN)

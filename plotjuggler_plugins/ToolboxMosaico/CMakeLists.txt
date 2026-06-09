@@ -83,7 +83,7 @@ set(MOSAICO_SOURCES
     toolbox_mosaico.cpp
 )
 
-qt5_add_resources(MOSAICO_RESOURCES resources/mosaico_resources.qrc)
+qt6_add_resources(MOSAICO_RESOURCES resources/mosaico_resources.qrc)
 
 add_library(ToolboxMosaico SHARED ${MOSAICO_SOURCES} ${MOSAICO_RESOURCES})
 
@@ -95,8 +95,8 @@ target_include_directories(ToolboxMosaico PRIVATE
 )
 
 target_link_libraries(ToolboxMosaico PRIVATE
-    Qt5::Widgets
-    Qt5::Xml
+    Qt6::Widgets
+    Qt6::Xml
     plotjuggler_base
     mosaico_sdk
     ${MOSAICO_ARROW_FLIGHT_TARGET}

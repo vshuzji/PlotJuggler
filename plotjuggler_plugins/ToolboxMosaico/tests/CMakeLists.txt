@@ -13,7 +13,7 @@ add_test(NAME mosaico_unit_tests COMMAND mosaico_unit_tests)
 include(GoogleTest)
 
 add_executable(ToolboxMosaico_tests test_tls_utils.cpp)
-target_link_libraries(ToolboxMosaico_tests PRIVATE GTest::gtest_main Qt5::Core)
+target_link_libraries(ToolboxMosaico_tests PRIVATE GTest::gtest_main Qt6::Core)
 target_include_directories(ToolboxMosaico_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 gtest_discover_tests(ToolboxMosaico_tests)
 

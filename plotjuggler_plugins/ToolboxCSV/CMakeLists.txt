@@ -1,6 +1,6 @@
 include_directories(../)
 
-qt5_wrap_ui(UI_SRC toolbox_csv.ui)
+qt6_wrap_ui(UI_SRC toolbox_csv.ui)
 
 add_library(ToolboxCSV SHARED
   toolbox_csv.cpp
@@ -13,8 +13,8 @@ find_package(Parquet CONFIG QUIET)
 
 target_link_libraries(
   ToolboxCSV PRIVATE
-  Qt5::Widgets
-  Qt5::Xml
+  Qt6::Widgets
+  Qt6::Xml
   plotjuggler_base
   plotjuggler_qwt
 )

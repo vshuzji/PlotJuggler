@@ -195,12 +195,14 @@ target_include_directories(plotjuggler_qwt PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+
 target_link_libraries(plotjuggler_qwt
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::Concurrent
-    Qt5::Svg
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Concurrent
+    Qt6::Svg
     )
 
 target_compile_definitions(plotjuggler_qwt PUBLIC QWT_MOC_INCLUDE)

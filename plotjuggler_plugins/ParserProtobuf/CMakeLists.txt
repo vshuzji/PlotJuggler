@@ -13,7 +13,7 @@ if(Protobuf_FOUND)
       SET(PROTOBUF_DEPS protobuf::libprotobuf)
   endif()
 
-  qt5_wrap_ui(UI_SRC protobuf_parser.ui)
+  qt6_wrap_ui(UI_SRC protobuf_parser.ui)
 
   add_library(
     ProtobufParser SHARED
@@ -37,8 +37,8 @@ if(Protobuf_FOUND)
   endif()
 
   target_link_libraries(ProtobufParser PRIVATE
-    Qt5::Widgets
-    Qt5::Xml
+    Qt6::Widgets
+    Qt6::Xml
     ${PROTOBUF_DEPS}
     plotjuggler_base
     plotjuggler_qwt

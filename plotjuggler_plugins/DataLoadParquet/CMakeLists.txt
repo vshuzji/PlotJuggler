@@ -10,14 +10,15 @@ if(TARGET Parquet::parquet_static)
 
   message(STATUS "[Arrow/Parquet] found")
 
-  qt5_wrap_ui(UI_SRC dataload_parquet.ui)
+  qt6_wrap_ui(UI_SRC dataload_parquet.ui)
 
   set(SRC dataload_parquet.cpp)
 
   add_library(DataLoadParquet SHARED ${SRC} ${UI_SRC})
 
+find_package(Qt6 REQUIRED COMPONENTS Xml)
   target_link_libraries(
-    DataLoadParquet PRIVATE Qt5::Widgets Qt5::Xml Arrow::arrow_static
+    DataLoadParquet PRIVATE Qt6::Widgets Qt6::Xml Arrow::arrow_static
                             Parquet::parquet_static plotjuggler_base)
 
   target_compile_definitions(DataLoadParquet PRIVATE QT_PLUGIN)

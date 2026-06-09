@@ -32,10 +32,7 @@ if(NOT WIN32 AND ENABLE_ASAN)
       "${CMAKE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
 endif()
 
-if(VCPKG_TOOLCHAIN)
-  set(BUILDING_WITH_VCPKG ON)
-  message(STATUS "BUILDING_WITH_VCPKG")
-endif()
+set(BUILDING_WITH_VCPKG ON)
 
 find_package(ament_cmake QUIET)
 find_package(catkin QUIET)
@@ -105,12 +102,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-if(APPLE AND EXISTS /usr/local/opt/qt5)
-  # Homebrew installs Qt5 (up to at least 5.9.1) in /usr/local/qt5, ensure it
+if(APPLE AND EXISTS /usr/local/opt/qt6)
+  # Homebrew installs Qt6 (up to at least 5.9.1) in /usr/local/qt6, ensure it
   # can be found by CMake since it is not in the default /usr/local prefix.
   # source:
   # https://github.com/Homebrew/homebrew-core/issues/8392#issuecomment-325226494
-  list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+  list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt6")
   set(CMAKE_MACOSX_RPATH 1)
 elseif(APPLE AND EXISTS /opt/homebrew/opt/qt@5)
   list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
@@ -118,7 +115,7 @@ elseif(APPLE AND EXISTS /opt/homebrew/opt/qt@5)
 endif()
 
 find_package(
-  Qt5 REQUIRED
+  Qt6 REQUIRED
   COMPONENTS Core
              Widgets
              PrintSupport
@@ -130,14 +127,14 @@ find_package(
              Network)
 
 set(QT_LINK_LIBRARIES
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::PrintSupport
-    Qt5::Xml
-    Qt5::Concurrent
-    Qt5::Svg
-    Qt5::OpenGL
-    Qt5::WebSockets)
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::PrintSupport
+    Qt6::Xml
+    Qt6::Concurrent
+    Qt6::Svg
+    Qt6::OpenGL
+    Qt6::WebSockets)
 
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "No build type selected, default to RelWithDebInfo")
@@ -157,14 +154,14 @@ else()
 endif()
 
 include_directories(
-  ${Qt5Core_INCLUDE_DIRS}
-  ${Qt5Widgets_INCLUDE_DIRS}
-  ${Qt5Concurrent_INCLUDE_DIRS}
-  ${Qt5PrintSupport_INCLUDE_DIRS}
-  ${Qt5Xml_INCLUDE_DIRS}
-  ${Qt5WebSockets_INCLUDE_DIRS}
-  ${Qt5Svg_INCLUDE_DIRS}
-  ${Qt5OpenGL_INCLUDE_DIRS})
+  ${Qt6Core_INCLUDE_DIRS}
+  ${Qt6Widgets_INCLUDE_DIRS}
+  ${Qt6Concurrent_INCLUDE_DIRS}
+  ${Qt6PrintSupport_INCLUDE_DIRS}
+  ${Qt6Xml_INCLUDE_DIRS}
+  ${Qt6WebSockets_INCLUDE_DIRS}
+  ${Qt6Svg_INCLUDE_DIRS}
+  ${Qt6OpenGL_INCLUDE_DIRS})
 
 # ########################  3rd party dependencies  #########################
 include(FetchContent)
@@ -225,7 +222,7 @@ set(PLOTJUGGLER_BASE_SRC
     plotjuggler_base/src/save_plot.cpp
     plotjuggler_base/src/range_slider.cpp)
 
-qt5_wrap_cpp(
+qt6_wrap_cpp(
   PLOTJUGGLER_BASE_MOCS
   plotjuggler_base/include/PlotJuggler/dataloader_base.h
   plotjuggler_base/include/PlotJuggler/statepublisher_base.h
