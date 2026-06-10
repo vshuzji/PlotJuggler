@@ -7,11 +7,12 @@
 #include <memory>
 #include <QWheelEvent>
 #include <QMessageBox>
+#include <QPlainTextEdit>
+#include <QSyntaxStyle>
 
 #include "PlotJuggler/reactive_function.h"
 #include "PlotJuggler/svg_util.h"
 
-#include "QSyntaxStyle"
 
 ToolboxLuaEditor::ToolboxLuaEditor()
 {
@@ -228,8 +229,7 @@ bool ToolboxLuaEditor::onShowWidget()
   ui->textFunction->setFont(fixedFont);
   ui->textLibrary->setFont(fixedFont);
 
-  auto style_path =
-      (theme == "light") ? ":/resources/lua_style_light.xml" : ":/resources/lua_style_dark.xml";
+  auto style_path = (theme == "light") ? ":/resources/lua_style_light.xml" : ":/resources/lua_style_dark.xml";
 
   QFile fl(style_path);
   if (fl.open(QIODevice::ReadOnly))
@@ -481,24 +481,24 @@ bool ToolboxLuaEditor::eventFilter(QObject* obj, QEvent* ev)
     if (ctrl_modifier_pressed)
     {
       int prev_size = _font_size;
-      if (wheel_event->delta() < 0)
-      {
+      int delta = wheel_event->angleDelta().y();
+
+      if (delta < 0)
         _font_size = std::max(8, prev_size - 1);
-      }
-      else if (wheel_event->delta() > 0)
-      {
+      else if (delta > 0)
         _font_size = std::min(14, prev_size + 1);
-      }
+
       if (_font_size != prev_size)
       {
-        auto font = ui->textGlobal->font();
+        QFont font = ui->textGlobal->font();
         font.setPointSize(_font_size);
+
         ui->textGlobal->setFont(font);
         ui->textFunction->setFont(font);
         ui->textLibrary->setFont(font);
 
-        QSettings settings;
-        settings.setValue("ToolboxLuaEditor/fonts_size", _font_size);
+        QSettings settings("PlotJuggler", "ToolboxLuaEditor");
+        settings.setValue("fonts_size", _font_size);
       }
       return true;
     }

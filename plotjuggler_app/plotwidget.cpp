@@ -1556,9 +1556,10 @@ void PlotWidget::on_pasteAction_triggered()
   QString clipboard_text = clipboard->text();
 
   QDomDocument doc;
-  bool valid = doc.setContent(clipboard_text);
-  if (!valid)
-  {
+  auto result = doc.setContent(clipboard_text); // 返回 ParseResult
+
+  if (!result) { // ParseResult 没有隐式转换 bool，要用 !result 检查
+    qDebug() << "XML解析失败:" << result.errorMessage;
     return;
   }
   auto root = doc.firstChildElement();
@@ -1637,7 +1638,7 @@ void PlotWidget::showPointValues(QPoint point)
     QwtText mark_text;
     mark_text.setText(text);
     mark_text.setBorderPen(QColor(Qt::transparent));
-    QColor background_color = qwtPlot()->palette().background().color();
+  QColor background_color = qwtPlot()->palette().color(QPalette::Window);
     background_color.setAlpha(220);
     mark_text.setBackgroundBrush(background_color);
 

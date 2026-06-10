@@ -4,6 +4,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+
+#include <QtGlobal>
 #include "curve_tracker.h"
 #include "qwt_series_data.h"
 #include "qwt_plot.h"
@@ -166,8 +168,8 @@ void CurveTracker::setPosition(const QPointF& tracker_position)
       text_lines.insert(std::make_pair(value, parts));
       _point_markers[i]->setVisible(true);
 
-      values_char_count = std::max(values_char_count, parts.value.length());
-      delta_char_count = std::max(delta_char_count, parts.delta.length());
+      values_char_count = qMax(values_char_count, qsizetype(parts.value.length()));
+      delta_char_count  = qMax(delta_char_count,  qsizetype(parts.delta.length()));
     }
     else
     {
@@ -219,17 +221,17 @@ void CurveTracker::setPosition(const QPointF& tracker_position)
       if (_param == VALUE)
       {
         line_str = QString("<font color=%1>%2%3</font>")
-                       .arg(parts.color.name())
-                       .arg(parts.value)
-                       .arg(parts.delta);
+        .arg(parts.color.name())
+            .arg(parts.value)
+            .arg(parts.delta);
       }
       else if (_param == VALUE_NAME)
       {
         line_str = QString("<font color=%1>%2%3 : %4</font>")
-                       .arg(parts.color.name())
-                       .arg(parts.value)
-                       .arg(parts.delta)
-                       .arg(parts.name);
+        .arg(parts.color.name())
+            .arg(parts.value)
+            .arg(parts.delta)
+            .arg(parts.name);
       }
 
       text_marker_info += line_str;
@@ -240,7 +242,7 @@ void CurveTracker::setPosition(const QPointF& tracker_position)
     }
     mark_text.setBorderPen(QColor(Qt::transparent));
 
-    QColor background_color = _plot->palette().background().color();
+    QColor background_color = _plot->palette().color(QPalette::Window);
     background_color.setAlpha(180);
     mark_text.setBackgroundBrush(background_color);
     mark_text.setText(text_marker_info);

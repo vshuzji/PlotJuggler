@@ -15,6 +15,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QToolButton>
 
 #include <QSettings>
 

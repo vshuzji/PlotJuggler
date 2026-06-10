@@ -372,11 +372,16 @@ double QwtAbstractScaleDraw::maxTickLength() const
    \param value Value
    \return Label string.
  */
+
+#include <QRegularExpression>
+
 QwtText QwtAbstractScaleDraw::label( double value ) const
 {
   auto str = QLocale().toString( value, 'f', 6 );
-  str.remove( QRegExp("0+$") ); // Remove any number of trailing 0's
-  str.remove( QRegExp("\\.$") ); // If the last character is just a '.' then remove it
+
+  str.remove(QRegularExpression("0+$"));   // 删除末尾所有 0
+  str.remove(QRegularExpression("\\.$"));  // 如果最后是 '.' 就删除
+
   return str;
 }
 

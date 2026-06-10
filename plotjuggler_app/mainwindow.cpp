@@ -33,7 +33,7 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QStringListModel>
-#include <QStringRef>
+#include <QStringView>
 #include <QThread>
 #include <QTextStream>
 #include <QWindow>
@@ -160,10 +160,10 @@ bool isMosaicoToolbox(const QString& plugin_name)
 MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , _undo_shortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this)
-  , _redo_shortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this)
+  , _undo_shortcut(QKeySequence(Qt::CTRL | Qt::Key_Z), this)
+  , _redo_shortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z), this)
   , _fullscreen_shortcut(Qt::Key_F10, this)
-  , _streaming_shortcut(QKeySequence(Qt::CTRL + Qt::Key_Space), this)
+  , _streaming_shortcut(QKeySequence(Qt::CTRL | Qt::Key_Space), this)
   , _playback_shotcut(Qt::Key_Space, this)
   , _minimized(false)
   , _active_streamer_plugin(nullptr)
@@ -443,7 +443,7 @@ MainWindow::MainWindow(const QCommandLineParser& commandline_parser, QWidget* pa
   forEachWidget([&](PlotWidget* plot) { plot->configureTracker(_tracker_param); });
 
   auto editor_layout = new QVBoxLayout();
-  editor_layout->setMargin(0);
+  editor_layout->setContentsMargins(0, 0, 0, 0);
   ui->formulaPage->setLayout(editor_layout);
   _function_editor = new FunctionEditorWidget(_mapped_plot_data, _transform_functions, this);
   editor_layout->addWidget(_function_editor);
@@ -2122,8 +2122,9 @@ bool MainWindow::loadLayoutFromFile(QString filename, bool load_datafiles)
   }
 
   // Read file content with explicit UTF-8 encoding to handle Unicode characters
+
   QTextStream stream(&file);
-  stream.setCodec("UTF-8");
+  stream.setEncoding(QStringConverter::Utf8);
   QString fileContent = stream.readAll();
   file.close();
 
@@ -2722,7 +2723,7 @@ void MainWindow::updatedDisplayTime()
   }
 
   QFontMetrics fm(timeLine->font());
-  int width = fm.width(timeLine->text()) + 10;
+  int width = fm.horizontalAdvance(timeLine->text()) + 10;
   timeLine->setFixedWidth(std::max(100, width));
 }
 
@@ -3392,7 +3393,7 @@ void MainWindow::on_buttonSaveLayout_clicked()
   if (file.open(QIODevice::WriteOnly))
   {
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");
+    stream.setEncoding(QStringConverter::Utf8);
     WriteSortedXml(stream, doc);
   }
 }
@@ -3594,7 +3595,7 @@ PopupMenu::PopupMenu(QWidget* relative_widget, QWidget* parent) : QMenu(parent),
 
 void PopupMenu::showEvent(QShowEvent*)
 {
-  QPoint p = _w->mapToGlobal({});
+  QPoint p = _w->mapToGlobal(QPoint(0, 0));
   QRect geo = _w->geometry();
   this->move(p.x() + geo.width(), p.y());
 }

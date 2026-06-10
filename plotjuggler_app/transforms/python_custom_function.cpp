@@ -1,4 +1,6 @@
 #include "python_custom_function.h"
+#include <qimage.h>
+#include <qpicture.h>
 
 #include <QTextStream>
 #include <QCoreApplication>

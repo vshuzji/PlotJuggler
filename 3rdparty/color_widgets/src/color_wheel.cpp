@@ -21,7 +21,7 @@
  */
 #include "color_wheel.hpp"
 
-#include <cmath>
+#include <QColor>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
@@ -63,7 +63,8 @@ public:
         : w(widget), hue(0), sat(0), val(0),
         wheel_width(20), mouse_status(Nothing),
         display_flags(FLAGS_DEFAULT),
-        color_from(&QColor::fromHsvF), rainbow_from_hue(&detail::rainbow_hsv)
+        color_from(reinterpret_cast<QColor(*)(qreal,qreal,qreal,qreal)>(&QColor::fromHsvF)),
+        rainbow_from_hue(&detail::rainbow_hsv)
     { }
 
     /// Calculate outer wheel radius from idget center
@@ -495,7 +496,7 @@ void ColorWheel::setDisplayFlags(DisplayFlags flags)
             p->hue = old_col.hsvHueF();
             p->sat = old_col.hsvSaturationF();
             p->val = old_col.valueF();
-            p->color_from = &QColor::fromHsvF;
+            p->color_from = reinterpret_cast<QColor(*)(qreal,qreal,qreal,qreal)>(&QColor::fromHsvF);
             p->rainbow_from_hue = &detail::rainbow_hsv;
         }
         p->render_ring();

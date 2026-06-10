@@ -18,7 +18,7 @@ DialogMCAP::DialogMCAP(const std::unordered_map<int, mcap::ChannelPtr>& channels
   : QDialog(parent)
   , ui(new Ui::dialog_mcap)
   , _select_all(QKeySequence(Qt::CTRL + Qt::Key_A), this)
-  , _deselect_all(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_A), this)
+  , _deselect_all(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_A), this)
 {
   ui->setupUi(this);
 

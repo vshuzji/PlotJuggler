@@ -184,18 +184,24 @@ else()
   message(STATUS "Python3 development libraries not found. PythonCustomFunction disabled.")
 endif()
 
-target_link_libraries(
-  plotjuggler
-  PRIVATE ${QT_LINK_LIBRARIES}
-          plotjuggler_base
-          colorwidgets
-          qt_advanced_docking
-          plotjuggler_qwt
-          QCodeEditor
-          nlohmann_json::nlohmann_json
-          fmt::fmt
-          lua::lua
-        )
+find_package(Qt6 COMPONENTS Core Network Xml Widgets OpenGLWidgets REQUIRED)
+
+target_link_libraries(plotjuggler
+    PRIVATE
+        Qt6::Core
+        Qt6::Network
+        Qt6::Xml
+        Qt6::Widgets
+        Qt6::OpenGLWidgets
+        plotjuggler_base
+        colorwidgets
+        qt_advanced_docking
+        plotjuggler_qwt
+        QCodeEditor
+        nlohmann_json::nlohmann_json
+        fmt::fmt
+        lua::lua
+)
 
 if(COMPILING_WITH_CATKIN)
   target_link_libraries(plotjuggler PRIVATE ${catkin_LIBRARIES})
@@ -206,9 +212,7 @@ if(COMPILING_WITH_CATKIN)
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
 elseif(COMPILING_WITH_AMENT)
 
-  target_link_libraries(plotjuggler PRIVATE ament_index_cpp::ament_index_cpp)
-
-  install(TARGETS plotjuggler DESTINATION lib/${PROJECT_NAME})
+install(TARGETS plotjuggler DESTINATION lib/${PROJECT_NAME})
 else()
   install(TARGETS plotjuggler DESTINATION bin)
 endif()

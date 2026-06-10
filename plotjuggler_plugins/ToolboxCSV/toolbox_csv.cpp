@@ -657,18 +657,24 @@ bool ToolboxCSV::serializeCSV(const ToolboxCSV::ExportTable& export_table, const
   }
 
   QTextStream out(&file);
-  out.setCodec("UTF-8");
+  out.setEncoding(QStringConverter::Utf8); // Qt6
 
-  // Header: time, numeric columns, string columns.
   out << "time";
+
+  auto escapeCsv = [](const QString &s) {
+    QString tmp = s;
+    if (tmp.contains('"')) tmp.replace("\"", "\"\"");
+    if (tmp.contains(',') || tmp.contains('"') || tmp.contains('\n'))
+        tmp = "\"" + tmp + "\"";
+    return tmp;
+  };
+
   for (const auto& col_name : export_table.names)
-  {
-    out << "," << QString::fromStdString(col_name);
-  }
+    out << "," << escapeCsv(QString::fromStdString(col_name));
+
   for (const auto& col_name : export_table.string_names)
-  {
-    out << "," << QString::fromStdString(col_name);
-  }
+    out << "," << escapeCsv(QString::fromStdString(col_name));
+
   out << "\n";
 
   const int time_decimals = 6;

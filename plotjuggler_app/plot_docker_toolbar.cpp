@@ -5,8 +5,12 @@
  */
 
 #include "plot_docker_toolbar.h"
+#include <qlineedit.h>
 #include "PlotJuggler/svg_util.h"
 #include <QCoreApplication>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QMessageBox>
 
 DockToolbar::DockToolbar(ads::CDockWidget* parent)
   : QWidget(parent), _parent(parent), ui(new Ui::DraggableToolbar), _fullscreen_mode(false)
@@ -86,7 +90,7 @@ void DockToolbar::mouseMoveEvent(QMouseEvent* ev)
   QWidget::mouseMoveEvent(ev);
 }
 
-void DockToolbar::enterEvent(QEvent* ev)
+void DockToolbar::enterEvent(QEnterEvent* ev)
 {
   ui->buttonFullscreen->setVisible(true);
   ui->buttonBackground->setVisible(true);
@@ -101,20 +105,27 @@ bool DockToolbar::eventFilter(QObject* object, QEvent* event)
 {
   if (event->type() == QEvent::MouseButtonDblClick)
   {
-    bool ok = true;
-    QString newName = QInputDialog::getText(this, tr("Change name of the Area"), tr("New name:"),
-                                            QLineEdit::Normal, ui->label->text(), &ok);
-    if (ok)
+    bool ok;
+    QString newName = QInputDialog::getText(
+        this,
+        tr("Change name of the Area"),
+        tr("New name:"),
+        QLineEdit::Normal,
+        ui->label->text(),
+        &ok
+        );
+
+    if (ok && !newName.isEmpty())
     {
       ui->label->setText(newName);
       emit titleChanged(newName);
     }
-    return true;
+
+    return true; // 已处理事件
   }
-  else
-  {
-    return QObject::eventFilter(object, event);
-  }
+
+  // 默认事件处理
+  return QObject::eventFilter(object, event);
 }
 
 void DockToolbar::on_stylesheetChanged(QString theme)

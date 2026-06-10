@@ -1,3 +1,6 @@
+if(MSVC)
+    add_compile_options(/permissive-)
+endif()
 
 set( QWT_SRC
     qwt.h

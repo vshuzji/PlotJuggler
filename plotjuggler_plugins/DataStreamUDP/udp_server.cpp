@@ -184,7 +184,7 @@ bool UDP_Server::start(QStringList*)
     showOptionsWidget(&dialog, dialog.ui->boxOptions, parser_creator->optionsWidget());
   };
 
-  connect(dialog.ui->comboBoxProtocol, qOverload<const QString&>(&QComboBox::currentIndexChanged),
+  connect(dialog.ui->comboBoxProtocol, qOverload<const QString&>(&QComboBox::currentTextChanged),
           this, onComboChanged);
 
   dialog.ui->comboBoxProtocol->setCurrentText(protocol);

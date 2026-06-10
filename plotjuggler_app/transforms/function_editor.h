@@ -4,17 +4,15 @@
 #include <QDialog>
 #include <QTimer>
 #include <QListWidgetItem>
-#include <unordered_map>
+#include <QButtonGroup>
+#include <QToolButton>
 #include "PlotJuggler/plotdata.h"
 #include "custom_function.h"
-#include "qwt_plot_curve.h"
 #include "ui_function_editor.h"
 #include "ui_functions_library.h"
 #include "plotwidget.h"
 #include "PlotJuggler/util/delayed_callback.hpp"
 
-#include "QLuaCompleter"
-#include "QSyntaxStyle"
 
 class FunctionEditorWidget : public QWidget
 {

@@ -63,7 +63,7 @@ void PlotZoomer::widgetMouseMoveEvent(QMouseEvent* me)
           _zoom_enabled = true;
           this->setRubberBand(RectRubberBand);
           this->setTrackerMode(AlwaysOff);
-          QPen pen(parentWidget()->palette().foreground().color(), 1, Qt::DashLine);
+          QPen pen(parentWidget()->palette().color(QPalette::WindowText) ,Qt::DashLine);
           this->setRubberBandPen(pen);
           QApplication::setOverrideCursor(zoom_cursor);
         }

@@ -109,8 +109,10 @@ bool WebsocketServer::start(QStringList*)
 
   ParserFactoryPlugin::Ptr parser_creator;
 
-  connect(dialog->ui->comboBoxProtocol, qOverload<const QString&>(&QComboBox::currentIndexChanged),
-          this, [this, dialog, &parser_creator](const QString& selected_protocol) {
+  connect(dialog->ui->comboBoxProtocol,
+          &QComboBox::currentTextChanged,  // use currentTextChanged instead of currentIndexChanged
+          this,
+          [this, dialog, &parser_creator](const QString& selected_protocol) {
             if (parser_creator)
             {
               if (auto prev_widget = parser_creator->optionsWidget())

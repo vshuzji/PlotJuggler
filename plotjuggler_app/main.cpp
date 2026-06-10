@@ -10,7 +10,6 @@
 #include <QSplashScreen>
 #include <QThread>
 #include <QCommandLineParser>
-#include <QDesktopWidget>
 #include <QFontDatabase>
 #include <QSettings>
 #include <QPushButton>
@@ -27,6 +26,9 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QCheckBox>
+
+#include <QGuiApplication>
+#include <QScreen>
 
 #include "PlotJuggler/transform_function.h"
 #include "transforms/binary_filter.h"
@@ -399,7 +401,12 @@ int main(int argc, char* argv[])
     if (parser.isSet(skin_path_option))
     {
       QDir path(parser.value(skin_path_option));
-      QFile splash = path.filePath("pj_splashscreen.png");
+      QString splashPath = path.filePath("pj_splashscreen.png");
+      QFile splash(splashPath);
+
+      if (!splash.exists()) {
+        qWarning() << "Splash file not found:" << splashPath;
+      }
       if (splash.exists())
       {
         main_pixmap = QPixmap(splash.fileName());
@@ -411,12 +418,21 @@ int main(int argc, char* argv[])
       main_pixmap = getFunnySplashscreen();
     }
 
+    // 创建 Splash Screen
     QSplashScreen splash(main_pixmap, Qt::WindowStaysOnTopHint);
-    QDesktopWidget* desktop = QApplication::desktop();
-    const int scrn = desktop->screenNumber();
-    const QPoint currentDesktopsCenter = desktop->availableGeometry(scrn).center();
-    splash.move(currentDesktopsCenter - splash.rect().center());
 
+    // 获取主屏幕或当前屏幕
+    QScreen* screen = QGuiApplication::primaryScreen(); // 主屏幕
+    // 如果想针对当前鼠标屏幕或主窗口屏幕，也可以用 QGuiApplication::screenAt(QCursor::pos())
+
+    // 获取屏幕可用区域中心（避免任务栏覆盖）
+    QRect availableGeo = screen->availableGeometry();
+    QPoint screenCenter = availableGeo.center();
+
+    // 居中 Splash
+    splash.move(screenCenter - splash.rect().center());
+
+    // 显示 Splash
     splash.show();
     app.processEvents();
 

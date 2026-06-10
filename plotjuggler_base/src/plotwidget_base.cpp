@@ -346,7 +346,7 @@ PlotWidgetBase::PlotWidgetBase(QWidget* parent) : _xy_mode(false), _keep_aspect_
   p = new QwtPlotPimpl(this, abs_canvas, onViewResized, onEvent);
 
   auto layout = new QHBoxLayout(this);
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   this->setLayout(layout);
   layout->addWidget(p);
 
@@ -565,7 +565,7 @@ bool PlotWidgetBase::eventFilter(QObject* obj, QEvent* event)
 
         if (ctrl_modifier)
         {
-          if (legend_rect.contains(mouse_event->pos()) && legend()->isVisible())
+          if (legend_rect.contains(mouse_event->position().toPoint()) && legend()->isVisible())
           {
             int prev_size = legend()->font().pointSize();
             int new_size = prev_size;

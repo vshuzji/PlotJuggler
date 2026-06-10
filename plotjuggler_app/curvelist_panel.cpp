@@ -58,12 +58,12 @@ CurveListPanel::CurveListPanel(PlotDataMapRef& mapped_plot_data,
   auto layout1 = new QHBoxLayout();
   ui->listPlaceholder1->setLayout(layout1);
   layout1->addWidget(_tree_view, 1);
-  layout1->setMargin(0);
+  layout1->setContentsMargins(0, 0, 0, 0);
 
   auto layout2 = new QHBoxLayout();
   ui->listPlaceholder2->setLayout(layout2);
   layout2->addWidget(_custom_view, 1);
-  layout2->setMargin(0);
+  layout2->setContentsMargins(0, 0, 0, 0);
 
   QSettings settings;
 
@@ -291,7 +291,7 @@ void CurveListPanel::update2ndColumnValues(double tracker_time)
 
 void CurveListPanel::refreshValues()
 {
-  auto default_foreground = _custom_view->palette().foreground();
+  auto default_foreground = _custom_view->palette().color(QPalette::WindowText);
 
   auto FormattedNumber = [](double value) {
     QSettings settings;
@@ -385,20 +385,31 @@ void CurveListPanel::refreshValues()
   }
 }
 
+#include <QRegularExpression>
+
 QString StringifyArray(QString str)
 {
-  static const QRegExp rx("(\\[\\d+\\])");
+  static const QRegularExpression rx("\\[(\\d+)\\]");
+
   int pos = 0;
   std::vector<std::pair<int, int>> index_positions;
 
-  while ((pos = rx.indexIn(str, pos)) != -1)
-  {
-    QString array_index = rx.cap(1);
+  auto match = rx.match(str, pos);
 
-    std::pair<int, int> index = { pos + 1, array_index.size() - 2 };
+  while (match.hasMatch())
+  {
+    QString array_index = match.captured(1);
+
+    int start = match.capturedStart(0);
+    int length = match.capturedLength(0);
+
+    std::pair<int, int> index = { start + 1, array_index.size() };
     index_positions.push_back(index);
-    pos += rx.matchedLength();
+
+    pos = start + length;
+    match = rx.match(str, pos);
   }
+
   if (index_positions.empty())
   {
     return str;

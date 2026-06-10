@@ -8,8 +8,16 @@ add_library(ToolboxFFT SHARED toolbox_FFT.cpp toolbox_FFT.h ${UI_SRC})
 
 target_include_directories(ToolboxFFT PRIVATE 3rdparty)
 
-target_link_libraries(ToolboxFFT PRIVATE Qt6::Widgets Qt6::Xml kissfft
-                                         plotjuggler_base plotjuggler_qwt)
+find_package(Qt6 CONFIG REQUIRED COMPONENTS OpenGLWidgets)
+target_link_libraries(ToolboxFFT PRIVATE
+                                         Qt6::Core
+                                         Qt6::Widgets
+                                         Qt6::OpenGL
+                                         Qt6::OpenGLWidgets
+                                         Qt6::Xml
+                                         kissfft
+                                         plotjuggler_base
+                                         plotjuggler_qwt)
 
 target_compile_definitions(ToolboxFFT PRIVATE QT_PLUGIN)
 

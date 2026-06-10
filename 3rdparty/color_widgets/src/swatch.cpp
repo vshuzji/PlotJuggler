@@ -561,13 +561,18 @@ void Swatch::mouseDoubleClickEvent(QMouseEvent *event)
 
 void Swatch::wheelEvent(QWheelEvent* event)
 {
-    if ( event->delta() > 0 )
+  QPoint delta = event->pixelDelta();
+  if (delta.isNull())  // 如果是传统滚轮
+        delta = event->angleDelta() / 8;  // 转换为整数角度
+
+  if (delta.y() > 0)
         p->selected = qMin(p->selected + 1, p->palette.count() - 1);
-    else if ( p->selected == -1 )
-            p->selected = p->palette.count() - 1;
-    else if ( p->selected > 0 )
+    else if (p->selected == -1)
+        p->selected = p->palette.count() - 1;
+    else if (p->selected > 0)
         p->selected--;
-    setSelected(p->selected);
+
+  setSelected(p->selected);
 }
 
 void Swatch::dragEnterEvent(QDragEnterEvent *event)

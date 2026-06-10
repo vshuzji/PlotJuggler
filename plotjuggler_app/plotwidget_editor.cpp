@@ -25,9 +25,7 @@ PlotwidgetEditor::PlotwidgetEditor(PlotWidget* plotwidget, QWidget* parent)
   ui->setupUi(this);
 
   installEventFilter(this);
-
-  //  setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
-
+  // setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
   setupColorWidget();
 
   QDomDocument doc;
@@ -43,7 +41,7 @@ PlotwidgetEditor::PlotwidgetEditor(PlotWidget* plotwidget, QWidget* parent)
   auto layout = new QVBoxLayout();
   ui->framePlotPreview->setLayout(layout);
   layout->addWidget(_plotwidget);
-  layout->setMargin(6);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   _plotwidget->zoomOut(false);
 
@@ -110,8 +108,8 @@ PlotwidgetEditor::PlotwidgetEditor(PlotWidget* plotwidget, QWidget* parent)
     ui->lineLimitMax->setText(QString::number(suggested_limits.max));
   }
 
-  // ui->listWidget->widget_background_disabled("QListView::item:selected { background:
-  // #ddeeff; }");
+          // ui->listWidget->widget_background_disabled("QListView::item:selected { background:
+          // #ddeeff; }");
 
   if (ui->listWidget->count() != 0)
   {
@@ -185,7 +183,7 @@ void PlotwidgetEditor::onColorChanged(QColor c)
 void PlotwidgetEditor::setupColorWidget()
 {
   auto wheel_layout = new QVBoxLayout();
-  wheel_layout->setMargin(0);
+  wheel_layout->setContentsMargins(0, 0, 0, 0);
   wheel_layout->setSpacing(5);
   ui->widgetWheel->setLayout(wheel_layout);
   _color_wheel = new color_widgets::ColorWheel(this);
@@ -408,7 +406,7 @@ EditorRowWidget::EditorRowWidget(QString text, QColor color) : QWidget()
   connect(_delete_button, &QPushButton::clicked, this, [this]() { emit deleteRow(this); });
 }
 
-void EditorRowWidget::enterEvent(QEvent* ev)
+void EditorRowWidget::enterEvent(QEnterEvent * ev)
 {
   _delete_button->setHidden(false);
   _empty_spacer->setHidden(true);

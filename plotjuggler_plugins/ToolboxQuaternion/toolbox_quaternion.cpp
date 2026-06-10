@@ -44,7 +44,7 @@ void ToolboxQuaternion::init(PJ::PlotDataMapRef& src_data, PJ::TransformsMap& tr
   _plot_widget = new PJ::PlotWidgetBase(ui->frame);
 
   auto preview_layout = new QHBoxLayout(ui->framePlotPreview);
-  preview_layout->setMargin(6);
+  preview_layout->setContentsMargins(6, 6, 6, 6);
   preview_layout->addWidget(_plot_widget);
 }
 
